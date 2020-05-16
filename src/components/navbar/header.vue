@@ -11,7 +11,7 @@
       <div class="collapse navbar-collapse">
         <ul class="navbar-nav ml-auto py-4 py-md-0">
           <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4 active">
-            <router-link id="my-lists" class="btn btn-link" tag="button" to="/">Mes listes</router-link>
+            <router-link id="my-lists" class="btn btn-link" tag="button" to="/list">Mes listes</router-link>
           </li>
         </ul>
       </div>
