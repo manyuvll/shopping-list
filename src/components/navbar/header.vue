@@ -1,17 +1,18 @@
 <template>
   <div>
     <nav class="navbar navbar-expand-md navbar-light">
-      <img
-        height="50px"
-        style="cursor: pointer; "
-        src="../../assets/nook.png"
-        v-on:click="$router.replace('/')"
-        alt
-      />
+      <div v-on:click="$router.push('/')" style="cursor: pointer;">
+        <img
+          height="50px"
+          src="../../assets/nook.png"
+          alt
+        />
+        <span style="color: white">Tom Nook's Listing</span>
+      </div>
       <div class="collapse navbar-collapse">
         <ul class="navbar-nav ml-auto py-4 py-md-0">
           <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4 active">
-            <router-link id="my-lists" class="btn btn-link" tag="button" to="/list">Mes listes</router-link>
+            <router-link id="my-lists" class="btn btn-link" tag="button" to="/listing">Mes listes</router-link>
           </li>
         </ul>
       </div>
