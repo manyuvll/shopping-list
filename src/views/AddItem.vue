@@ -1,0 +1,73 @@
+<template>
+  <form class="container">
+    <h3>Add item to {{list.title}}</h3>
+    <div class="form-row">
+        <label for="name">Object name</label>
+        <input type="text" v-model="newItem.name" class="form-control" id="name" placeholder="Ex. Game Boy Advance">
+    </div>
+    <div class="form-row mt-2">
+        <label for="description">Description</label>
+        <textarea type="text" v-model="newItem.description" class="form-control" id="description" placeholder="Why on the list?"/>
+    </div>
+    <div class="form-row mt-2">
+      <label for="quantity">Quantity: {{newItem.quantity}}</label>
+      <input type="range" v-model="newItem.quantity" class="custom-range" min="0" max="100" step="1" id="quantity">
+    </div>
+    <div class="form-row mt-2">
+      <label for="picture">Picture url</label>
+      <input type="text" v-model="newItem.picture" class="form-control" id="picture" placeholder="www.google.com/pic.png">
+    </div>
+    <button class="btn btn-dark float-left mt-4" @click="save">Save</button>
+  </form>
+</template>
+<style scoped>
+  .card-img{
+   width: 100%!important;
+   height: 150px!important;
+   object-fit: cover;
+}
+</style>
+
+<script>
+import { LOCALSTORAGE } from '../utils/const';
+
+export default {
+  name: "Listing",
+  components: {},
+  data () {
+    return {
+      list: {},
+      listing: [],
+      newItem: {
+        name:'',
+        description: '',
+        picture: '',
+        quantity: 0
+      },
+      slug: this.$route.params.slug ?? null,
+    }
+  },
+  methods: {
+    save () {
+      if (!this.newItem.picture) this.newItem.picture = 'https://resize-elle.ladmedia.fr/rcrop/638,,forcex/img/var/plain_site/storage/images/loisirs/evasion/que-voir-a-tokyo/l-artere-golden-gay-dans-le-quartier-de-shinjuku/52561124-1-fre-FR/L-artere-Golden-Gay-dans-le-quartier-de-Shinjuku.jpg'
+      this.list.items.push(this.newItem)
+      this.listing[this.listing.findIndex(list => list.slug === this.list.slug)] = this.list;
+      // Store into localstorage
+      localStorage.setItem(LOCALSTORAGE.LISTING, JSON.stringify(this.listing));
+      this.$router.replace(`/listing/${this.slug}`)
+    }
+  },
+  mounted () {
+    if (!this.slug) this.$router.go(-1)
+    let listing = localStorage.getItem(LOCALSTORAGE.LISTING)
+    if(listing) {
+      this.listing = JSON.parse(listing)
+      let list = this.listing.find(item => item.slug === this.slug);
+      if (list) this.list = list
+      else {
+        this.$router.go(-1)
+      }
+    }
+  }
+};
+</script>

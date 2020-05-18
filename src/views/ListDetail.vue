@@ -1,24 +1,23 @@
 <template>
-  <form class="container">
-    <div class="form-row">
-        <label for="title">Title of the list</label>
-        <input type="text" v-model="newList.title" class="form-control" id="title" placeholder="My title">
+  <div class="container">
+    <h3>{{list.title}} ({{list.items.length}}) </h3> 
+    <div class="row mb-4"><router-link tag="button" class="btn btn-success" :to="`/listing/${slug}/add`">Add new list</router-link></div>
+    <div class="row">
+      <div class="card bg-dark text-white col-3 mr-2" v-for="item of list.items" :key="item.name + item.description">
+      <img style="opacity: 0.3;" :src="item.picture" class="card-img" :alt="item.item">
+      <div class="card-img-overlay">
+        <h5 class="card-title">{{item.name}}</h5>
+        <p class="card-text">{{item.description}}</p>
+            <p class="card-text"><i class="fas fa-dolly-flatbed"></i> {{item.quantity}} <button type="button" class="btn btn-link" style="color:red" @click.stop="onDelete(item)"><i class="fas fa-trash"></i></button></p>
+      </div>
     </div>
-    <div class="form-row">
-        <label for="description">Description</label>
-        <textarea type="text" v-model="newList.description" class="form-control" id="description" placeholder="Aim of the list"/>
     </div>
-    <div class="form-row">
-      <label for="picture">Picture url</label>
-      <input type="text" v-model="newList.picture" class="form-control" id="picture" placeholder="www.google.com/pic.png">
-    </div>
-    <button class="btn btn-dark float-left mt-4" @click="save">Save</button>
-  </form>
+  </div>
 </template>
 <style scoped>
   .card-img{
    width: 100%!important;
-   height: 150px!important;
+   height: 180px!important;
    object-fit: cover;
 }
 </style>
@@ -31,26 +30,32 @@ export default {
   components: {},
   data () {
     return {
-      newList: {
-        title: '',
-        description: '',
-        picture: '',
-        items: [],
-        slug: ''
-      }
+      slug: this.$route.params.slug ?? null,
+      list: {
+        items: []
+      },
+      listing: []
     }
   },
   methods: {
-    save () {
-      // Get from localstorage
-      let listing = localStorage.getItem(LOCALSTORAGE.LISTING) ? JSON.parse(localStorage.getItem(LOCALSTORAGE.LISTING)) : []
-      //Very little chance of dupes unless 1 million list (5%)
-      this.newList.slug = Math.random().toString().replace('.','')
-      listing.push(this.newList)
-      // Store into localstorage
-      localStorage.setItem(LOCALSTORAGE.LISTING, JSON.stringify(listing));
-      this.$router.replace('/listing')
+    onDelete(item) {
+      this.list.items = this.list.items.filter(i => i !== item)
+      this.listing[this.listing.findIndex(list => list.slug === this.list.slug)] = this.list;
+      localStorage.setItem(LOCALSTORAGE.LISTING, JSON.stringify(this.listing));
     }
+  },
+  mounted () {
+    if (!this.slug) this.$router.go(-1)
+    this.listing = localStorage.getItem(LOCALSTORAGE.LISTING) ?? []
+    if(this.listing) {
+      this.listing = JSON.parse(this.listing)
+      let list = this.listing.find(item => item.slug === this.slug);
+      if (list) this.list = list
+      else {
+        this.$router.go(-1)
+      }
+    }
+    console.log(this.list) 
   }
 };
 </script>

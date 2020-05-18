@@ -9,7 +9,8 @@
         <div class="col-md-8">
           <div class="card-body">
             <h2 class="card-title">{{list.title}}</h2>
-            <p class="card-text">Number of items: {{list.items.length}}</p>
+            <p class="card-text">{{list.description}}</p>
+            <p class="card-text"><i class="fas fa-dolly-flatbed"></i> {{list.items.length}} <button type="button" class="btn btn-link" style="color:red" @click.stop="onDelete(list.slug)"><i class="fas fa-trash"></i></button></p>
           </div>
         </div>
       </div>
@@ -20,7 +21,7 @@
 <style scoped>
   .card-img{
    width: 100%!important;
-   height: 150px!important;
+   height: 180px!important;
    object-fit: cover;
 }
 </style>
@@ -39,6 +40,10 @@ export default {
   methods: {
     onClick (slug) {
       this.$router.push(`/listing/${slug}`)
+    },
+    onDelete (slug) {
+      this.listes = this.listes.filter(list => list.slug !== slug)
+      localStorage.setItem(LOCALSTORAGE.LISTING, JSON.stringify(this.listes));
     }
   },
   created () {

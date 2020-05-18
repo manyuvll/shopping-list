@@ -4,6 +4,8 @@ import layout from '../layouts/layout.vue'
 import home from '../views/Home.vue'
 import list from '../views/Listing.vue'
 import newList from '../views/AddList.vue'
+import listDetail from '../views/ListDetail.vue'
+import addItem from '../views/AddItem.vue'
 import error from '../views/404.vue'
 
 Vue.use(VueRouter)
@@ -16,7 +18,9 @@ const routes = [
     children: [
       { path: '', component: home },
       { path: 'listing', component: list },
-      { path: 'listing/new', component: newList }
+      { path: 'listing/new', component: newList },
+      { path: 'listing/:slug', component: listDetail },
+      { path: 'listing/:slug/add', component: addItem }
     ]
   },
   {
