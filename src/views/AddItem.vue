@@ -2,7 +2,9 @@
   <form class="container">
     <h3>Add item to {{list.title}}</h3>
     <div class="form-row">
-      <label for="name">Object name</label>
+      <label for="name">
+        <span style="color:red">*</span> Object name
+      </label>
       <input
         type="text"
         v-model="newItem.name"
@@ -13,7 +15,9 @@
     </div>
     <span v-if="errors.name" style="color: red">{{errors.name}}</span>
     <div class="form-row mt-2">
-      <label for="description">Description</label>
+      <label for="description">
+        <span style="color:red">*</span> Description
+      </label>
       <textarea
         type="text"
         v-model="newItem.description"
@@ -22,6 +26,7 @@
         placeholder="Why on the list?"
       />
     </div>
+    <span v-if="errors.description" style="color: red">{{errors.description}}</span>
     <div class="form-row mt-2">
       <label for="quantity">Quantity: {{newItem.quantity}}</label>
       <input
@@ -45,7 +50,7 @@
       />
     </div>
     <button
-      :disabled="newItem.name.length < 2"
+      :disabled="newItem.name.length < 3 || newItem.description.length < 6"
       class="btn btn-dark float-left mt-4"
       @click="save"
     >Save</button>
@@ -84,14 +89,28 @@ export default {
         this.validateName(value);
       },
       deep: true
+    },
+    "newItem.description": {
+      handler(value) {
+        this.newItem.description = value;
+        this.validateDescription(value);
+      },
+      deep: true
     }
   },
   methods: {
     validateName(name) {
-      if (name.length < 2) {
-        this.errors["name"] = "Must be at least 2 characters!";
+      if (name.length < 3) {
+        this.errors["name"] = "Must be at least 3 characters!";
       } else {
         this.errors["name"] = "";
+      }
+    },
+    validateDescription(description) {
+      if (description.length < 6) {
+        this.errors["description"] = "Must be at least 6 characters!";
+      } else {
+        this.errors["description"] = "";
       }
     },
     save() {

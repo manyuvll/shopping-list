@@ -2,7 +2,9 @@
   <form class="container">
     <h3>Add List</h3>
     <div class="form-row">
-      <label for="title">Title of the list</label>
+      <label for="title">
+        <span style="color:red">*</span> Title of the list
+      </label>
       <input
         type="text"
         v-model="newList.title"
@@ -13,7 +15,9 @@
     </div>
     <span v-if="errors.title" style="color: red">{{errors.title}}</span>
     <div class="form-row mt-2">
-      <label for="description">Description</label>
+      <label for="description">
+        <span style="color:red">*</span> Description
+      </label>
       <textarea
         type="text"
         v-model="newList.description"
@@ -22,6 +26,7 @@
         placeholder="Aim of the list"
       />
     </div>
+    <span v-if="errors.description" style="color: red">{{errors.description}}</span>
     <div class="form-row mt-2">
       <label for="picture">Picture url</label>
       <input
@@ -33,7 +38,7 @@
       />
     </div>
     <button
-      :disabled="newList.title.length < 2"
+      :disabled="newList.title.length < 3 || newList.description.length < 6"
       class="btn btn-dark float-left mt-4"
       @click="save"
     >Save</button>
@@ -70,14 +75,28 @@ export default {
         this.validateTitle(value);
       },
       deep: true
+    },
+    "newList.description": {
+      handler(value) {
+        this.newList.description = value;
+        this.validateDescription(value);
+      },
+      deep: true
     }
   },
   methods: {
     validateTitle(title) {
-      if (title.length < 2) {
+      if (title.length < 3) {
         this.errors["title"] = "Must be at least 2 characters!";
       } else {
         this.errors["title"] = "";
+      }
+    },
+    validateDescription(description) {
+      if (description.length < 6) {
+        this.errors["description"] = "Must be at least 6 characters!";
+      } else {
+        this.errors["description"] = "";
       }
     },
     save() {
