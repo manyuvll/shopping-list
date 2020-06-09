@@ -41,6 +41,11 @@
   height: 180px !important;
   object-fit: cover;
 }
+.card-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 </style>
 
 <script>
