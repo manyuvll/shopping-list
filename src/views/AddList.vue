@@ -11,6 +11,7 @@
         placeholder="My title"
       />
     </div>
+    <span v-if="errors.title" style="color: red">{{errors.title}}</span>
     <div class="form-row mt-2">
       <label for="description">Description</label>
       <textarea
@@ -31,7 +32,11 @@
         placeholder="www.google.com/pic.png"
       />
     </div>
-    <button class="btn btn-dark float-left mt-4" @click="save">Save</button>
+    <button
+      :disabled="newList.title.length < 2"
+      class="btn btn-dark float-left mt-4"
+      @click="save"
+    >Save</button>
   </form>
 </template>
 <style scoped>
@@ -54,10 +59,27 @@ export default {
         picture: "",
         items: [],
         slug: ""
-      }
+      },
+      errors: []
     };
   },
+  watch: {
+    "newList.title": {
+      handler(value) {
+        this.newList.title = value;
+        this.validateTitle(value);
+      },
+      deep: true
+    }
+  },
   methods: {
+    validateTitle(title) {
+      if (title.length < 2) {
+        this.errors["title"] = "Must be at least 2 characters!";
+      } else {
+        this.errors["title"] = "";
+      }
+    },
     save() {
       //Very little chance of dupes unless 1 million list (5%)
       this.newList.slug = Math.random()

@@ -11,6 +11,7 @@
         placeholder="Ex. Game Boy Advance"
       />
     </div>
+    <span v-if="errors.name" style="color: red">{{errors.name}}</span>
     <div class="form-row mt-2">
       <label for="description">Description</label>
       <textarea
@@ -43,7 +44,11 @@
         placeholder="www.google.com/pic.png"
       />
     </div>
-    <button class="btn btn-dark float-left mt-4" @click="save">Save</button>
+    <button
+      :disabled="newItem.name.length < 2"
+      class="btn btn-dark float-left mt-4"
+      @click="save"
+    >Save</button>
   </form>
 </template>
 <style scoped>
@@ -68,10 +73,27 @@ export default {
         picture: "",
         quantity: 0
       },
+      errors: [],
       slug: this.$route.params.slug ?? null
     };
   },
+  watch: {
+    "newItem.name": {
+      handler(value) {
+        this.newItem.name = value;
+        this.validateName(value);
+      },
+      deep: true
+    }
+  },
   methods: {
+    validateName(name) {
+      if (name.length < 2) {
+        this.errors["name"] = "Must be at least 2 characters!";
+      } else {
+        this.errors["name"] = "";
+      }
+    },
     save() {
       if (!this.newItem.picture)
         this.newItem.picture =

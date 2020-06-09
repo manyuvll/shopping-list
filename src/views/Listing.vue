@@ -57,7 +57,6 @@ export default {
       this.$router.push(`/listing/${slug}`);
     },
     onDelete(slug) {
-      console.log("weeew");
       this.$store.dispatch("removeList", slug);
       this.lists = this.$store.getters.lists;
     }

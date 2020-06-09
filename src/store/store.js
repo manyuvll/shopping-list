@@ -23,7 +23,6 @@ export const store = new Vuex.Store({
             state.lists = state.lists.filter(list => list.slug !== slug);
         },
         addItem: (state, { item, slug }) => {
-            console.log("slug", slug)
             let index = state.lists.findIndex(list => list.slug === slug)
             state.lists[index].items.push(item)
         },
@@ -45,7 +44,6 @@ export const store = new Vuex.Store({
             commit('removeItem', { item, slug })
         },
         addItem: ({ commit }, { item, slug }) => {
-            console.log(item, slug)
             commit('addItem', { item, slug })
         }
     },
