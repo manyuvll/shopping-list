@@ -25,6 +25,7 @@ export const store = new Vuex.Store({
         addItem: (state, { item, slug }) => {
             let index = state.lists.findIndex(list => list.slug === slug)
             state.lists[index].items.push(item)
+            state.lists[index].totalPrice = state.lists[index].items.reduce((accumulator, item) => accumulator + item.totalPrice, 0);
         },
         removeItem: (state, { item, slug }) => {
             if (state.lists && state.lists.length > 0) {

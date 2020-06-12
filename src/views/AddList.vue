@@ -1,6 +1,6 @@
 <template>
   <form class="container">
-    <h3>Add List</h3>
+    <h3>Add to shopping list</h3>
     <div class="form-row">
       <label for="title">
         <span style="color:red">*</span> Title of the list
@@ -8,12 +8,16 @@
       <input
         type="text"
         v-model="newList.title"
-        class="form-control"
+        :class="titleIsValid ? 'form-control is-valid' : 'form-control'"
         id="title"
         placeholder="My title"
       />
     </div>
-    <p v-if="errors.title" class="error-message">{{errors.title}}</p>
+    <small
+      id="passwordHelpBlock"
+      class="form-text text-muted"
+      style="text-align: left;"
+    >Title must be of 3 or more characters.</small>
     <div class="form-row mt-2">
       <label for="description">
         <span style="color:red">*</span> Description
@@ -21,27 +25,27 @@
       <textarea
         type="text"
         v-model="newList.description"
-        class="form-control"
+        :class="descriptionIsValid ? 'form-control is-valid' : 'form-control'"
         id="description"
-        placeholder="Aim of the list"
+        placeholder="List description"
       />
     </div>
-    <p v-if="errors.description" class="error-message">{{errors.description}}</p>
+    <small
+      id="passwordHelpBlock"
+      class="form-text text-muted"
+      style="text-align: left;"
+    >Description must be of 6 or more characters.</small>
     <div class="form-row mt-2">
       <label for="picture">Picture url</label>
       <input
         type="text"
         v-model="newList.picture"
-        class="form-control"
+        :class="this.pictureIsValid && this.newList.picture.length > 1 ? 'form-control is-valid' : 'form-control'"
         id="picture"
         placeholder="www.google.com/pic.png"
       />
     </div>
-    <button
-      :disabled="newList.title.length < 3 || newList.description.length < 6"
-      class="btn btn-dark float-left mt-4"
-      @click="save"
-    >Save</button>
+    <button :disabled="!validateForm" class="btn btn-dark float-left mt-4" @click="save">Save</button>
   </form>
 </template>
 <style scoped>
@@ -49,6 +53,10 @@
   width: 100% !important;
   height: 150px !important;
   object-fit: cover;
+}
+
+.error-message {
+  color: red;
 }
 </style>
 
@@ -68,37 +76,22 @@ export default {
       errors: []
     };
   },
-  watch: {
-    "newList.title": {
-      handler(value) {
-        this.newList.title = value;
-        this.validateTitle(value);
-      },
-      deep: true
+  computed: {
+    titleIsValid() {
+      return this.newList.title.length > 3;
     },
-    "newList.description": {
-      handler(value) {
-        this.newList.description = value;
-        this.validateDescription(value);
-      },
-      deep: true
+    descriptionIsValid() {
+      return this.newList.description.length > 6;
+    },
+    pictureIsValid() {
+      let regex = new RegExp("/(https?://.*.(?:png|jpg))/i");
+      return regex.exec(this.newList.picture);
+    },
+    validateForm() {
+      return this.titleIsValid && this.descriptionIsValid;
     }
   },
   methods: {
-    validateTitle(title) {
-      if (title.length < 3) {
-        this.errors["title"] = "Must be at least 2 characters!";
-      } else {
-        this.errors["title"] = "";
-      }
-    },
-    validateDescription(description) {
-      if (description.length < 6) {
-        this.errors["description"] = "Must be at least 6 characters!";
-      } else {
-        this.errors["description"] = "";
-      }
-    },
     save() {
       //Very little chance of dupes unless 1 million list (5%)
       this.newList.slug = Math.random()

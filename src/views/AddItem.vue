@@ -8,12 +8,16 @@
       <input
         type="text"
         v-model="newItem.name"
-        class="form-control"
+        :class="nameIsValid ? 'form-control is-valid' : 'form-control'"
         id="name"
         placeholder="Ex. Game Boy Advance"
       />
     </div>
-    <p v-if="errors.name" class="error-message">{{errors.name}}</p>
+    <small
+      id="passwordHelpBlock"
+      class="form-text text-muted"
+      style="text-align: left;"
+    >Name must be of 3 or more characters.</small>
     <div class="form-row mt-2">
       <label for="description">
         <span style="color:red">*</span> Description
@@ -21,17 +25,39 @@
       <textarea
         type="text"
         v-model="newItem.description"
-        class="form-control"
+        :class="descriptionIsValid ? 'form-control is-valid' : 'form-control'"
         id="description"
         placeholder="Why on the list?"
       />
     </div>
-    <p v-if="errors.description" class="error-message">{{errors.description}}</p>
+    <small
+      id="passwordHelpBlock"
+      class="form-text text-muted"
+      style="text-align: left;"
+    >Description must be of 6 or more characters.</small>
+    <div class="form-row mt-2">
+      <label for="unitPrice">
+        <span style="color:red">*</span> Unit price
+      </label>
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">€</span>
+        </div>
+        <input
+          type="number"
+          v-model.number="newItem.unitPrice"
+          :class="unitPriceIsValid ? 'form-control is-valid' : 'form-control'"
+          step="1"
+          id="unitPrice"
+          placeholder="Unit price"
+        />
+      </div>
+    </div>
     <div class="form-row mt-2">
       <label for="quantity">Quantity: {{newItem.quantity}}</label>
       <input
         type="range"
-        v-model="newItem.quantity"
+        v-model.number="newItem.quantity"
         class="custom-range"
         min="1"
         max="100"
@@ -75,6 +101,8 @@ export default {
       newItem: {
         name: "",
         description: "",
+        unitPrice: 0,
+        totalPrice: 0,
         picture: "",
         quantity: 1
       },
@@ -82,38 +110,25 @@ export default {
       slug: this.$route.params.slug ?? null
     };
   },
-  watch: {
-    "newItem.name": {
-      handler(value) {
-        this.newItem.name = value;
-        this.validateName(value);
-      },
-      deep: true
+  computed: {
+    nameIsValid() {
+      return this.newItem.name.length > 3;
     },
-    "newItem.description": {
-      handler(value) {
-        this.newItem.description = value;
-        this.validateDescription(value);
-      },
-      deep: true
+    descriptionIsValid() {
+      return this.newItem.description.length > 6;
+    },
+    unitPriceIsValid() {
+      return this.newItem.unitPrice;
+    },
+    totalPrice() {
+      return this.newItem.unitPrice && this.newItem.quantity
+        ? this.newItem.unitPrice * this.newItem.quantity
+        : 0;
     }
   },
   methods: {
-    validateName(name) {
-      if (name.length < 3) {
-        this.errors["name"] = "Must be at least 3 characters!";
-      } else {
-        this.errors["name"] = "";
-      }
-    },
-    validateDescription(description) {
-      if (description.length < 6) {
-        this.errors["description"] = "Must be at least 6 characters!";
-      } else {
-        this.errors["description"] = "";
-      }
-    },
     save() {
+      this.newItem.totalPrice = this.totalPrice;
       this.$store.dispatch("addItem", { item: this.newItem, slug: this.slug });
       this.$router.replace(`/listing/${this.slug}`);
     }

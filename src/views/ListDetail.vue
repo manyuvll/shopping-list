@@ -1,12 +1,16 @@
 <template>
   <div class="container">
     <h3>{{list.title}} ({{list.items.length}})</h3>
-    <div class="row mb-4">
-      <router-link tag="button" class="btn btn-success" :to="`/listing/${slug}/add`">Add new list</router-link>
+    <div class="row" style="place-content: center;">
+      <router-link
+        tag="button"
+        class="btn btn-success col-9"
+        :to="`/listing/${slug}/add`"
+      >Add new item</router-link>
     </div>
-    <div class="row no-gutters">
+    <div class="row no-gutters" style="place-content: center;">
       <div
-        class="card bg-dark text-white col-md-2 col-sm-12 mr-md-2 mt-2"
+        class="card bg-dark text-white col-md-5 col-sm-12 mr-md-2 mt-2"
         v-for="item of list.items"
         :key="item.name + item.description"
       >
@@ -20,17 +24,21 @@
           <h5 class="card-title">{{item.name}}</h5>
           <p class="card-text">{{item.description}}</p>
           <p class="card-text">
+            Total Price:
+            {{item.totalPrice}}
+            <i class="fas fa-euro-sign mr-2"></i>
             <i class="fas fa-dolly-flatbed"></i>
+            Quantity:
             {{item.quantity}}
-            <button
-              type="button"
-              class="btn btn-link"
-              style="color:red"
-              @click.stop="onDelete(item)"
-            >
-              <i class="fas fa-trash"></i>
-            </button>
           </p>
+          <button
+            type="button"
+            class="col-10 btn btn-danger"
+            style="color:white; opacity: 0.95;"
+            @click.stop="onDelete(item)"
+          >
+            <i class="fas fa-trash"></i>
+          </button>
         </div>
       </div>
     </div>

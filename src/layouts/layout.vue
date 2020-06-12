@@ -2,7 +2,7 @@
   <div>
     <Header />
     <transition name="fade" mode="out-in">
-      <router-view class="mt-3" />
+      <router-view class="mt-3 mb-5" />
     </transition>
     <Footer />
   </div>
