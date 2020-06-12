@@ -38,6 +38,7 @@
             @click.stop="onDelete(item)"
           >
             <i class="fas fa-trash"></i>
+            Delete Item
           </button>
         </div>
       </div>

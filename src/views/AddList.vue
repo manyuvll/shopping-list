@@ -69,6 +69,7 @@ export default {
       newList: {
         title: "",
         description: "",
+        totalPrice: 0,
         picture: "",
         items: [],
         slug: ""

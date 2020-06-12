@@ -46,6 +46,7 @@
                 @click.stop="onDelete(list.slug)"
               >
                 <i class="fas fa-trash"></i>
+                Delete List
               </button>
             </div>
           </div>
