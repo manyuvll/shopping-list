@@ -10,7 +10,12 @@
     >
       <div class="row no-gutters">
         <div class="col-md-2">
-          <img :src="list.picture" class="card-img" width="20px" :alt="list.title" />
+          <img
+            :src="list.picture ? list.picture : require('../assets/shinjuku.jpg')"
+            class="card-img"
+            width="20px"
+            :alt="list.title"
+          />
         </div>
         <div class="col-md-8">
           <div class="card-body">

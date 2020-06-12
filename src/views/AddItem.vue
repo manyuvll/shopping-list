@@ -13,7 +13,7 @@
         placeholder="Ex. Game Boy Advance"
       />
     </div>
-    <span v-if="errors.name" style="color: red">{{errors.name}}</span>
+    <p v-if="errors.name" class="error-message">{{errors.name}}</p>
     <div class="form-row mt-2">
       <label for="description">
         <span style="color:red">*</span> Description
@@ -26,14 +26,14 @@
         placeholder="Why on the list?"
       />
     </div>
-    <span v-if="errors.description" style="color: red">{{errors.description}}</span>
+    <p v-if="errors.description" class="error-message">{{errors.description}}</p>
     <div class="form-row mt-2">
       <label for="quantity">Quantity: {{newItem.quantity}}</label>
       <input
         type="range"
         v-model="newItem.quantity"
         class="custom-range"
-        min="0"
+        min="1"
         max="100"
         step="1"
         id="quantity"
@@ -76,7 +76,7 @@ export default {
         name: "",
         description: "",
         picture: "",
-        quantity: 0
+        quantity: 1
       },
       errors: [],
       slug: this.$route.params.slug ?? null
@@ -114,9 +114,6 @@ export default {
       }
     },
     save() {
-      if (!this.newItem.picture)
-        this.newItem.picture =
-          "https://resize-elle.ladmedia.fr/rcrop/638,,forcex/img/var/plain_site/storage/images/loisirs/evasion/que-voir-a-tokyo/l-artere-golden-gay-dans-le-quartier-de-shinjuku/52561124-1-fre-FR/L-artere-Golden-Gay-dans-le-quartier-de-Shinjuku.jpg";
       this.$store.dispatch("addItem", { item: this.newItem, slug: this.slug });
       this.$router.replace(`/listing/${this.slug}`);
     }

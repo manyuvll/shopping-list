@@ -13,7 +13,7 @@
         placeholder="My title"
       />
     </div>
-    <span v-if="errors.title" style="color: red">{{errors.title}}</span>
+    <p v-if="errors.title" class="error-message">{{errors.title}}</p>
     <div class="form-row mt-2">
       <label for="description">
         <span style="color:red">*</span> Description
@@ -26,7 +26,7 @@
         placeholder="Aim of the list"
       />
     </div>
-    <span v-if="errors.description" style="color: red">{{errors.description}}</span>
+    <p v-if="errors.description" class="error-message">{{errors.description}}</p>
     <div class="form-row mt-2">
       <label for="picture">Picture url</label>
       <input
@@ -104,9 +104,6 @@ export default {
       this.newList.slug = Math.random()
         .toString()
         .replace(".", "");
-      if (!this.newList.picture)
-        this.newList.picture =
-          "https://resize-elle.ladmedia.fr/rcrop/638,,forcex/img/var/plain_site/storage/images/loisirs/evasion/que-voir-a-tokyo/l-artere-golden-gay-dans-le-quartier-de-shinjuku/52561124-1-fre-FR/L-artere-Golden-Gay-dans-le-quartier-de-Shinjuku.jpg";
       // Store into Vuex
       this.$store.dispatch("addList", this.newList);
       this.$router.replace("/listing");

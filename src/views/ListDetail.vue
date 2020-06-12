@@ -10,7 +10,12 @@
         v-for="item of list.items"
         :key="item.name + item.description"
       >
-        <img style="opacity: 0.3;" :src="item.picture" class="card-img" :alt="item.item" />
+        <img
+          style="opacity: 0.3;"
+          :src="item.picture ? item.picture : require('../assets/shinjuku.jpg')"
+          class="card-img"
+          :alt="item.item"
+        />
         <div class="card-img-overlay">
           <h5 class="card-title">{{item.name}}</h5>
           <p class="card-text">{{item.description}}</p>
