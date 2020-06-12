@@ -65,9 +65,6 @@ export default {
   data() {
     return {
       slug: this.$route.params.slug ?? null,
-      list: {
-        items: []
-      },
       listing: []
     };
   },
@@ -80,13 +77,13 @@ export default {
       this.list = this.$store.getters.list(this.slug);
     }
   },
+  computed: {
+    list() {
+      return this.$store.getters.list(this.slug);
+    }
+  },
   mounted() {
     if (!this.slug) this.$router.go(-1);
-    let list = this.$store.getters.list(this.slug);
-    if (list) this.list = list;
-    else {
-      this.$router.go(-1);
-    }
   }
 };
 </script>
