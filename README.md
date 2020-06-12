@@ -1,9 +1,29 @@
 # liste-app
 
 ## Demo
-```
-https://bishamonten.gitlab.io/liste-app
-```
+
+[Demo link](https://bishamonten.gitlab.io/liste-app)
+
+## Project details
+
+Entirely working on smartphones and pc.
+
+Possibility of creating list by:
+- Title
+- Description
+- Picture (Url)
+
+The list will show the total price and a delete button.
+After creating the list, you can add items to it.
+An item has:
+- Name
+- Description
+- Unit Price 
+- Quantity
+- Picture (Url)
+
+Initially done with localstorage, but changed with Vuex to remove duplication of code mainly and make it cleanly.
+Please give it a try! :)
 
 ## Project setup
 ```
@@ -24,6 +44,3 @@ npm run build
 ```
 npm run lint
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

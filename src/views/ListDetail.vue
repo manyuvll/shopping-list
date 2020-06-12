@@ -1,12 +1,13 @@
 <template>
   <div class="container">
-    <h3>{{list.title}} ({{list.items.length}})</h3>
+    <h3>
+      {{list.title}}
+      <span class="badge badge-info">{{list.items.length}}</span>
+    </h3>
     <div class="row" style="place-content: center;">
-      <router-link
-        tag="button"
-        class="btn btn-success col-9"
-        :to="`/listing/${slug}/add`"
-      >Add new item</router-link>
+      <router-link tag="button" class="btn btn-success col-5" :to="`/listing/${slug}/add`">
+        <i class="fa fa-plus mr-2"></i>Add new item
+      </router-link>
     </div>
     <div class="row no-gutters" style="place-content: center;">
       <div

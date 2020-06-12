@@ -2,11 +2,9 @@
   <div class="home container">
     <h1 class="display-4 mb-4">Custom Lists</h1>
     <div class="row" style="place-content: center;">
-      <router-link
-        tag="button"
-        class="btn btn-dark float-left col-8 mb-3"
-        to="/listing/new"
-      >Add new list</router-link>
+      <router-link tag="button" class="btn btn-dark float-left col-8 mb-3" to="/listing/new">
+        <i class="fa fa-plus mr-2"></i>Add new list
+      </router-link>
     </div>
     <div class="row" style="place-content: center;">
       <List v-for="list of lists" :key="list.slug" :data="list" />
