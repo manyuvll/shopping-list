@@ -1,5 +1,7 @@
 # liste-app
 
+![Listing](https://cdn.discordapp.com/attachments/625998454610460672/721018929257906276/listing.PNG)
+
 ## Demo
 
 [Demo link](https://bishamonten.gitlab.io/liste-app)
@@ -23,6 +25,7 @@ An item has:
 - Picture (Url)
 
 Initially done with localstorage, but changed with Vuex to remove duplication of code mainly and make it cleanly.
+
 Please give it a try! :)
 
 ## Project setup
