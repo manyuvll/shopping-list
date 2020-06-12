@@ -10,39 +10,7 @@
       </router-link>
     </div>
     <div class="row no-gutters" style="place-content: center;">
-      <div
-        class="card bg-dark text-white col-md-5 col-sm-12 mr-md-2 mt-2"
-        v-for="item of list.items"
-        :key="item.name + item.description"
-      >
-        <img
-          style="opacity: 0.3;"
-          :src="item.picture ? item.picture : require('../assets/shinjuku.jpg')"
-          class="card-img"
-          :alt="item.item"
-        />
-        <div class="card-img-overlay">
-          <h5 class="card-title">{{item.name}}</h5>
-          <p class="card-text">{{item.description}}</p>
-          <p class="card-text">
-            Total Price:
-            {{item.totalPrice}}
-            <i class="fas fa-euro-sign mr-2"></i>
-            <i class="fas fa-dolly-flatbed"></i>
-            Quantity:
-            {{item.quantity}}
-          </p>
-          <button
-            type="button"
-            class="col-10 btn btn-danger"
-            style="color:white; opacity: 0.95;"
-            @click.stop="onDelete(item)"
-          >
-            <i class="fas fa-trash"></i>
-            Delete Item
-          </button>
-        </div>
-      </div>
+      <Item v-for="item of list.items" :key="item.name + item.quantity" :data="item" :slug="slug" />
     </div>
   </div>
 </template>
@@ -60,23 +28,16 @@
 </style>
 
 <script>
+import Item from "../components/item";
+
 export default {
   name: "Listing",
-  components: {},
+  components: { Item },
   data() {
     return {
       slug: this.$route.params.slug ?? null,
       listing: []
     };
-  },
-  methods: {
-    onDelete(item) {
-      this.$store.dispatch("removeItem", {
-        item: item,
-        slug: this.slug
-      });
-      this.list = this.$store.getters.list(this.slug);
-    }
   },
   computed: {
     list() {
